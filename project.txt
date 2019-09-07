@@ -1,0 +1,75 @@
+import java.sql.*;
+
+import java.util.*;
+
+import java.io.*;
+
+public class JDBCExample {
+   
+static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+  
+static final String DB_URL = "jdbc:mysql://localhost/CODINGGROUND";
+
+   
+static final String USER = "root";
+   
+static final String PASS = "root";
+
+   
+public static void main(String[] args)throws Exception
+   
+{
+     
+   Class.forName("com.mysql.jdbc.Driver");
+      
+   System.out.println("Connecting to database...");
+    
+   Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
+   
+   System.out.println("Creating statement...");
+    
+   Statement stmt = conn.createStatement();
+    
+   String sql;
+  
+   sql = "create table project(rollno number(5)primary key,photo blob";
+ 
+   stmt.executeQuery(sql);
+    
+   PreparedStatement ps=conn.prepareStatement("insert into priject values(?,?)");
+  
+   ps.setInt(1,101);
+   
+   File f=new file("d:\\abc.jpg");
+   
+   FileInputStream fs=new FileInputStream(f);
+   
+   ps.setBinaryStream(2,fs);
+  
+   PreparedStatement ps1=conn.prepareStatement("select * from project");
+  
+   ResultSet rs=ps1.excuteQuery();
+ 
+   rs.next();
+    
+   int r=rs.getInt(1);
+  
+   System.out.println(r);
+    
+   InputStream is=rs.getBinaryStream(2);
+    
+   FileOutputStream fos=new FileOutputStream("d:\\abc.jpg");
+   
+   int x;
+     
+   while((x=is.read()!=-1))
+ 
+     {
+  
+        fos.write(x);
+ 
+      }  
+   fos.close(); 
+ }
+      
+   
